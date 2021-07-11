@@ -143,8 +143,8 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	elif [ $COMPILER = "gcc" ]
 	then
 		msg "|| Cloning GCC  ||"
-		git clone --depth=1 https://github.com/fajar4561/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/fajar4561/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
+		git clone --depth=1 https://github.com/Thoreck-project/aarch64-linux-android -b opt-gnu-8.x $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/Thoreck-project/arm-linux-androideabi $KERNEL_DIR/gcc32
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
