@@ -57,14 +57,14 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
 NAMA=Signature
-JENIS=HMP
+JENIS=EAS
 VARIAN=STOCK
 # Build Type
 BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=clang
+COMPILER=gcc
 
 # Kernel is LTO
 LTO=0
@@ -152,8 +152,8 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 		git clone --depth=1 https://github.com/fajar4561/DragonTC -b 10.0 clang
 
 		msg "|| Cloning GCC ||"
-		git clone --depth=1 https://github.com/fajar4561/aarch64-linux-gnu -b stable-gcc gcc64 
-		git clone --depth=1 https://github.com/fajar4561/arm-linux-gnueabi -b stable-gcc gcc32 
+		git clone --depth=1 https://github.com/Thoreck-project/aarch64-linux-android -b opt-gnu-8.x gcc64 
+		git clone --depth=1 https://github.com/Thoreck-project/arm-linux-androideabi gcc32 
 	fi
 
 	# Toolchain Directory defaults to clang-llvm
@@ -203,7 +203,7 @@ exports() {
 		PATH=$TC_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin:$PATH
 	elif [ $COMPILER = "gcc" ]
 	then
-		KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
+		KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-opt-linux-android-gcc --version | head -n 1)
 		PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
@@ -328,8 +328,8 @@ build_kernel() {
 	elif [ $COMPILER = "gcc" ]
 	then
 		make -j"$PROCS" O=out \
-				CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-				CROSS_COMPILE=aarch64-linux-android- "${MAKE[@]}" 2>&1 | tee build.log
+				CROSS_COMPILE_ARM32=arm-opt-linux-androideabi- \
+				CROSS_COMPILE=aarch64-opt-linux-android- "${MAKE[@]}" 2>&1 | tee build.log
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		make -j"$PROCS"  O=out \
