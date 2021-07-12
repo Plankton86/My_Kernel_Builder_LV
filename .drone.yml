@@ -3,7 +3,7 @@ name: Signature Drone
 
 steps:
  - name: compile
-   image: fajar4561/saciku:latest
+   image: fajar4561/signature:latest
    environment:
      TG_CHAT_ID:
        from_secret: TG_CHAT_ID
