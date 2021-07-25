@@ -57,8 +57,8 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
 NAMA=Signature
-JENIS=EAS-R2
-VARIAN=Stock
+JENIS=HMP-R2
+VARIAN=OC
 # Build Type
 BUILD_TYPE="Nightly"
 
