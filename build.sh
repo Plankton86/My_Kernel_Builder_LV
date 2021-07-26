@@ -57,14 +57,14 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
 NAMA=Signature
-JENIS=EAS-R3
+JENIS=EAS-R2
 VARIAN=Stock
 # Build Type
 BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=gcc
+COMPILER=clang
 
 # Kernel is LTO
 LTO=0
