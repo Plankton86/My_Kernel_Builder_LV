@@ -58,7 +58,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Kernel Variant
 NAMA=Signature
 JENIS=EAS-R2
-VARIAN=Stock
+VARIAN=Dragon
 # Build Type
 BUILD_TYPE="Nightly"
 
