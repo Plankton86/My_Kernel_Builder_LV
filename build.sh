@@ -58,7 +58,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Kernel Variant
 NAMA=Signature
 JENIS=HMP-R2
-VARIAN=BLACK
+VARIAN=Gembot
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -143,7 +143,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	elif [ $COMPILER = "gcc" ]
 	then
 		msg "|| Cloning GCC  ||"
-		git clone --depth=1 https://github.com/Thoreck-project/aarch64-linux-gnu-gcc9 -b master $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/najahiiii/aarch64-linux-gnu -b gcc8-201903-A $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Thoreck-project/arm-linux-gnueabi-gcc9 -b master $KERNEL_DIR/gcc32
 
 	elif [ $COMPILER = "clangxgcc" ]
