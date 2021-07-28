@@ -57,8 +57,8 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
 NAMA=Signature
-JENIS=HMP-R2
-VARIAN=Gembot
+JENIS=EAS-R2
+VARIAN=Bot
 # Build Type
 BUILD_TYPE="Nightly"
 
