@@ -46,11 +46,11 @@ KERNEL_DIR=$PWD
 MODEL="Asus Zenfone Max Pro M1"
 
 # The codename of the device
-DEVICE="X00TD"
+DEVICE="X00T"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00TD_defconfig
+DEFCONFIG=ruega_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -58,7 +58,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Kernel Variant
 NAMA=Ruega
 JENIS=HMP
-VARIAN=BOT
+VARIAN=CAF
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -189,7 +189,7 @@ setversioning() {
 exports() {
 	export KBUILD_BUILD_USER="nobody"
     export KBUILD_BUILD_HOST="android-build"
-    export KBUILD_BUILD_VERSION="3"
+    export KBUILD_BUILD_VERSION="86"
 	export ARCH=arm64
 	export SUBARCH=arm64
 
