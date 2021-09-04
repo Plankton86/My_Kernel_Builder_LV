@@ -65,7 +65,7 @@ BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=gcc
+COMPILER=clang
 
 # Kernel is LTO
 LTO=0
@@ -138,7 +138,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	if [ $COMPILER = "clang" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/fajar4561/SignatureTC_Clang -b master clang
+		git clone --depth=1 https://github.com/kdrag0n/proton-clang -b master clang
 
 	elif [ $COMPILER = "gcc" ]
 	then
