@@ -1,6 +1,5 @@
 #! /bin/bash
 # shellcheck disable=SC2154
-
  # Script For Building Android arm64 Kernel
  #
  # Copyright (c) 2018-2021 Panchajanya1999 <rsk52959@gmail.com>
@@ -46,19 +45,21 @@ KERNEL_DIR=$PWD
 MODEL="Asus Zenfone Max Pro M1"
 
 # The codename of the device
-DEVICE="X00T"
+DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=electroperf_defconfig
+DEFCONFIG=X00T_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-NAMA=Fox
-JENIS=LTO
-VARIAN=HMP
+NAMA=Wizard
+
+JENIS=HMP
+
+VARIAN=Minimal
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -67,7 +68,7 @@ BUILD_TYPE="Nightly"
 COMPILER=gcc
 
 # Kernel is LTO
-LTO=1
+LTO=0
 
 # Specify linker.
 # 'ld.lld'(default)
@@ -121,7 +122,6 @@ LOG_DEBUG=1
 # Check if we are using a dedicated CI ( Continuous Integration ), and
 # set KBUILD_BUILD_VERSION and KBUILD_BUILD_HOST and CI_BRANCH
 
-
 #Check Kernel Version
 LINUXVER=$(make kernelversion)
 
@@ -143,17 +143,17 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	elif [ $COMPILER = "gcc" ]
 	then
 		msg "|| Cloning GCC  ||"
-		git clone https://github.com/mvaisakh/gcc-arm64.git gcc64 --depth=1
-		git clone https://github.com/mvaisakh/gcc-arm.git gcc32 --depth=1
+		git clone --depth=1 https://github.com/najahiiii/aarch64-linux-gnu.git -b linaro8-20190402 $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/Thoreck-project/arm-linux-gnueabi $KERNEL_DIR/gcc32
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/fajar4561/DragonTC -b 10.0 clang
+		git clone --depth=1 https://github.com/Thoreck-project/DragonTC -b 10.0 clang
 
 		msg "|| Cloning GCC ||"
-		git clone https://github.com/mvaisakh/gcc-arm64.git gcc64 --depth=1 
-		git clone https://github.com/mvaisakh/gcc-arm.git gcc32 --depth=1 
+		git clone --depth=1 https://github.com/Thoreck-project/aarch64-linux-gnu-gcc9.git -b stable-gcc gcc64
+		git clone --depth=1 https://github.com/Thoreck-project/arm-linux-gnueabi-gcc9.git -b stable-gcc gcc32
 	fi
 
 	# Toolchain Directory defaults to clang-llvm
@@ -164,7 +164,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 		GCC32_DIR=$KERNEL_DIR/gcc32
 
 	msg "|| Cloning Anykernel ||"
-        git clone https://github.com/beesa03/Anykernel.git AnyKernel3
+        git clone https://github.com/fajar4561/Anykernel.git -b master AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -188,8 +188,8 @@ setversioning() {
 
 exports() {
 	export KBUILD_BUILD_USER="nobody"
-    export KBUILD_BUILD_HOST="android-build"
-    export KBUILD_BUILD_VERSION="17"
+    export KBUILD_BUILD_HOST="unknown"
+    export KBUILD_BUILD_VERSION="10"
 	export ARCH=arm64
 	export SUBARCH=arm64
 
@@ -203,7 +203,7 @@ exports() {
 		PATH=$TC_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin:$PATH
 	elif [ $COMPILER = "gcc" ]
 	then
-		KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-elf-gcc --version | head -n 1 | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+		KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
 		PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
@@ -328,11 +328,8 @@ build_kernel() {
 	elif [ $COMPILER = "gcc" ]
 	then
 		make -j"$PROCS" O=out \
-				CROSS_COMPILE_ARM32=arm-eabi- \
-				CROSS_COMPILE=aarch64-elf- \
-				AR=aarch64-elf-ar \
-				OBJDUMP=aarch64-elf-objdump \
-				STRIP=aarch64-elf-strip "${MAKE[@]}" 2>&1 | tee build.log
+				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+				CROSS_COMPILE=aarch64-linux-gnu- "${MAKE[@]}" 2>&1 | tee build.log
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		make -j"$PROCS"  O=out \
@@ -386,7 +383,7 @@ gen_zip() {
 	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER @$KBUILD_BUILD_HOST/g" anykernel.sh
 	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
-	sed -i "s/message.word=.*/message.word=jangan lupa ngopi sama udut:v/g" anykernel.sh
+	sed -i "s/message.word=.*/message.word=don't blame me if u get poor battery backup or weak performance . i'm not responsible . Do with Your Own Risk./g" anykernel.sh
 	sed -i "s/build.date=.*/build.date=$DATE2/g" anykernel.sh
 
 
