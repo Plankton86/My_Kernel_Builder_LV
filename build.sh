@@ -49,23 +49,23 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00T_defconfig
+DEFCONFIG=X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-NAMA=Wizard
+NAMA=ToM
 
 JENIS=HMP
 
-VARIAN=Minimal
+VARIAN=P-Wifi
 # Build Type
 BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=clang
+COMPILER=gcc
 
 # Kernel is LTO
 LTO=0
@@ -138,7 +138,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	if [ $COMPILER = "clang" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/kdrag0n/proton-clang -b master clang
+		git clone --depth=1 https://github.com/BENKz29/Fire-clang -b master clang
 
 	elif [ $COMPILER = "gcc" ]
 	then
@@ -164,7 +164,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 		GCC32_DIR=$KERNEL_DIR/gcc32
 
 	msg "|| Cloning Anykernel ||"
-        git clone https://github.com/fajar4561/Anykernel.git -b master AnyKernel3
+        git clone https://github.com/BENKz29/Anykernel.git -b master AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -189,7 +189,7 @@ setversioning() {
 exports() {
 	export KBUILD_BUILD_USER="nobody"
     export KBUILD_BUILD_HOST="unknown"
-    export KBUILD_BUILD_VERSION="10"
+    export KBUILD_BUILD_VERSION="1"
 	export ARCH=arm64
 	export SUBARCH=arm64
 
