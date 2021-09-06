@@ -49,7 +49,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00TD_defconfig
+DEFCONFIG=ToM_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -59,13 +59,13 @@ NAMA=ToM
 
 JENIS=HMP
 
-VARIAN=Wifi
+VARIAN=CAF
 # Build Type
 BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=gcc
+COMPILER=clang
 
 # Kernel is LTO
 LTO=0
@@ -138,7 +138,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	if [ $COMPILER = "clang" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/fajar4561/SignatureTC_Clang -b master clang
+		git clone --depth=1 https://github.com/kdrag0n/proton-clang.git clang
 
 	elif [ $COMPILER = "gcc" ]
 	then
