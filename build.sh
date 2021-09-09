@@ -49,7 +49,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00TD_defconfig
+DEFCONFIG=X00T_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -59,7 +59,7 @@ NAMA=ToM
 
 JENIS=HMP
 
-VARIAN=X
+VARIAN=16
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -189,7 +189,7 @@ setversioning() {
 exports() {
 	export KBUILD_BUILD_USER="nobody"
     export KBUILD_BUILD_HOST="android-build"
-    export KBUILD_BUILD_VERSION="35"
+    export KBUILD_BUILD_VERSION="1"
 	export ARCH=arm64
 	export SUBARCH=arm64
 
@@ -383,7 +383,7 @@ gen_zip() {
 	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER @$KBUILD_BUILD_HOST/g" anykernel.sh
 	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
-	sed -i "s/message.word=.*/message.word=don't blame me if u get poor battery backup or weak performance . i'm not responsible . Do with Your Own Risk./g" anykernel.sh
+	sed -i "s/message.word=.*/message.word=Don't forget coffee and cigarettes./g" anykernel.sh
 	sed -i "s/build.date=.*/build.date=$DATE2/g" anykernel.sh
 
 
