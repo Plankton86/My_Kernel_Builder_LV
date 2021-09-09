@@ -49,7 +49,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00T_defconfig
+DEFCONFIG=tom_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -59,7 +59,7 @@ NAMA=ToM
 
 JENIS=HMP
 
-VARIAN=16
+VARIAN=CAF
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -383,7 +383,7 @@ gen_zip() {
 	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER @$KBUILD_BUILD_HOST/g" anykernel.sh
 	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
-	sed -i "s/message.word=.*/message.word=Don't forget coffee and cigarettes./g" anykernel.sh
+	sed -i "s/message.word=.*/message.word=don't forget coffee and cigarettes./g" anykernel.sh
 	sed -i "s/build.date=.*/build.date=$DATE2/g" anykernel.sh
 
 
