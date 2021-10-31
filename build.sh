@@ -45,7 +45,7 @@ KERNEL_DIR=$PWD
 MODEL="Asus Zenfone Max Pro M1"
 
 # The codename of the device
-DEVICE="X00TD"
+DEVICE="X00TD/X00T"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
@@ -55,20 +55,22 @@ DEFCONFIG=X00TD_defconfig
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-NAMA=MORBID
+NAMA=Magazine-HMP
 
-JENIS=HMP
+KERNEL_FOR=LV-HMP-Overclock
 
-VARIAN=LTO
+JENIS=[LV]
+
+VARIAN=Ryzen-radeon-#1
 # Build Type
 BUILD_TYPE="Nightly"
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=gcc
+COMPILER=clang
 
 # Kernel is LTO
-LTO=1
+LTO=0
 
 # Specify linker.
 # 'ld.lld'(default)
@@ -138,14 +140,13 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 	if [ $COMPILER = "clang" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/kdrag0n/proton-clang.git clang
+		git clone --depth=1 https://github.com/Plankton00/Predator_Clang_14.git clang
 
 	elif [ $COMPILER = "gcc" ]
 	then
 		msg "|| Cloning GCC  ||"
 		git clone --depth=1 https://github.com/mvaisakh/gcc-arm64.git $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/mvaisakh/gcc-arm.git $KERNEL_DIR/gcc32
-
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning toolchain ||"
@@ -164,7 +165,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 		GCC32_DIR=$KERNEL_DIR/gcc32
 
 	msg "|| Cloning Anykernel ||"
-        git clone https://github.com/BENKz29/Anykernel.git -b master AnyKernel3
+        git clone https://github.com/Plankton00/AnyKernel3.git -b main AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -178,7 +179,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%Y%m%d")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$NAMA-$JENIS-$VARIAN-$LINUXVER-$DATE"
+    KERNELNAME="$JENIS-$NAMA-$VARIAN-$DATE2"
     # Export our new localversion and zipnames
     export KERNELNAME
     export ZIPNAME="$KERNELNAME.zip"
@@ -187,9 +188,9 @@ setversioning() {
 ##--------------------------------------------------------------##
 
 exports() {
-	export KBUILD_BUILD_USER="nobody"
+	export KBUILD_BUILD_USER="#Plankton00"
     export KBUILD_BUILD_HOST="android-build"
-    export KBUILD_BUILD_VERSION="3"
+    export KBUILD_BUILD_VERSION="1"
 	export ARCH=arm64
 	export SUBARCH=arm64
 
@@ -216,8 +217,8 @@ exports() {
 	TOKEN=$TG_TOKEN
 	PROCS=$(nproc --all)
 	export PROCS
-	BOT_MSG_URL="https://api.telegram.org/bot$TOKEN/sendMessage"
-	BOT_BUILD_URL="https://api.telegram.org/bot$TOKEN/sendDocument"
+	BOT_MSG_URL="https://api.telegram.org/bot$TG_TOKEN/sendMessage"
+	BOT_BUILD_URL="https://api.telegram.org/bot$TG_TOKEN/sendDocument"
 	PROCS=$(nproc --all)
 
 	export KBUILD_BUILD_USER ARCH SUBARCH PATH \
@@ -228,7 +229,7 @@ exports() {
 ##---------------------------------------------------------##
 
 tg_post_msg() {
-	curl -s -X POST "$BOT_MSG_URL" -d chat_id="$CHATID" \
+	curl -s -X POST "$BOT_MSG_URL" -d chat_id="$TG_CHAT_ID" \
 	-d "disable_web_page_preview=true" \
 	-d "parse_mode=html" \
 	-d text="$1"
@@ -243,7 +244,7 @@ tg_post_build() {
 
 	#Show the Checksum alongwith caption
 	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
-	-F chat_id="$CHATID"  \
+	-F chat_id="$TG_CHAT_ID"  \
 	-F "disable_web_page_preview=true" \
 	-F "parse_mode=html" \
 	-F caption="$2 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"
@@ -254,9 +255,9 @@ tg_post_build() {
 ##----------------------------------------------------------------##
 
 tg_send_sticker() {
-    curl -s -X POST "https://api.telegram.org/bot$TOKEN/sendSticker" \
+    curl -s -X POST "https://api.telegram.org/bot$TG_TOKEN/sendSticker" \
         -d sticker="$1" \
-        -d chat_id="$CHATID"
+        -d chat_id="$TG_CHAT_ID"
 }
 
 ##----------------------------------------------------------------##
@@ -278,8 +279,8 @@ tg_send_files(){
 <b>Zip Name</b>
 - <code>$ZIP_RELEASE</code>"
 
-        curl --progress-bar -F document=@"$KernelFiles" "https://api.telegram.org/bot$TOKEN/sendDocument" \
-        -F chat_id="$CHATID"  \
+        curl --progress-bar -F document=@"$KernelFiles" "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
+        -F chat_id="$TG_CHAT_ID"  \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
         -F caption="$MSG"
@@ -380,10 +381,9 @@ gen_zip() {
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
 	fi
 	cd AnyKernel3 || exit
-        cp -af anykernel-real.sh anykernel.sh
 	sed -i "s/kernel.string=.*/kernel.string=$NAMA-$VARIAN/g" anykernel.sh
-	sed -i "s/kernel.for=.*/kernel.for=$JENIS/g" anykernel.sh
-	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
+	sed -i "s/kernel.for=.*/kernel.for=$KERNEL_FOR/g" anykernel.sh
+	sed -i "s/kernel.compiler=.*/kernel.compiler=$COMPILER/g" anykernel.sh
 	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER @$KBUILD_BUILD_HOST/g" anykernel.sh
 	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
 	sed -i "s/message.word=.*/message.word=don't blame me if u get poor battery backup or weak performance . i'm not responsible . Do with Your Own Risk./g" anykernel.sh
@@ -395,8 +395,8 @@ gen_zip() {
 	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME"
 	
-	curl --progress-bar -F document=@"$ZIPNAME" "https://api.telegram.org/bot$TOKEN/sendDocument" \
-        -F chat_id="$CHATID"  \
+	curl --progress-bar -F document=@"$ZIPNAME" "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
+        -F chat_id="$TG_CHAT_ID"  \
         -F "disable_web_page_preview=true" \
         -F "parse_mode=html" \
         -F caption="✅<b>Build Done</b>
@@ -425,7 +425,7 @@ exports
 build_kernel
 if [ $LOG_DEBUG = "1" ]
 then
-	tg_post_build "build.log" "$CHATID" "<b>Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>"
+	tg_post_build "build.log" "$TG_CHAT_ID" "<b>Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>"
 fi
 
 ##----------------*****-----------------------------##
