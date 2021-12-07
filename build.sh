@@ -49,19 +49,19 @@ DEVICE="X00TD/X00T"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=X00TD_defconfig
+DEFCONFIG=RTX_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-NAMA=Magazine-HMP
+NAMA=GeForce-RTX-HMP
 
 KERNEL_FOR=LV-HMP-Overclock
 
 JENIS=[LV]
 
-VARIAN=Ryzen-radeon-#1
+VARIAN=20.70-#1
 # Build Type
 BUILD_TYPE="Nightly"
 
@@ -385,7 +385,7 @@ gen_zip() {
 	sed -i "s/kernel.string=.*/kernel.string=$NAMA-$VARIAN/g" anykernel.sh
 	sed -i "s/kernel.for=.*/kernel.for=$KERNEL_FOR/g" anykernel.sh
 	sed -i "s/kernel.compiler=.*/kernel.compiler=$COMPILER/g" anykernel.sh
-	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER @$KBUILD_BUILD_HOST/g" anykernel.sh
+	sed -i "s/kernel.made=.*/kernel.made=PLANKTON @plankton86/g" anykernel.sh
 	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
 	sed -i "s/message.word=.*/message.word=don't blame me if u get poor battery backup or weak performance . i'm not responsible . Do with Your Own Risk./g" anykernel.sh
 	sed -i "s/build.date=.*/build.date=$DATE2/g" anykernel.sh
