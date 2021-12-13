@@ -55,7 +55,7 @@ DEFCONFIG=RTX_defconfig
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-NAMA=GeForce-RTX-HMP
+NAMA=RTX-Projet-HMP
 
 KERNEL_FOR=LV-HMP-Overclock
 
@@ -188,8 +188,8 @@ setversioning() {
 ##--------------------------------------------------------------##
 
 exports() {
-	export KBUILD_BUILD_USER="#Plankton00"
-    export KBUILD_BUILD_HOST="android-build"
+	export KBUILD_BUILD_USER="android-build"
+    export KBUILD_BUILD_HOST="Plankton86"
     export KBUILD_BUILD_VERSION="1"
 	export ARCH=arm64
 	export SUBARCH=arm64
